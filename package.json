@@ -13,6 +13,7 @@
     "@google/genai": "^1.0.0",
     "firebase": "^11.0.0",
     "framer-motion": "^11.0.0",
+        "motion": "^11.0.0",
     "lucide-react": "^0.462.0",
     "pdfjs-dist": "5.5.207",
     "react": "^19.0.0",
