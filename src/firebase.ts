@@ -2,6 +2,14 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, orderBy, limit, addDoc } from 'firebase/firestore';
 
+export enum OperationType {
+  GET = 'GET',
+  LIST = 'LIST',
+  CREATE = 'CREATE',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
+}
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -16,6 +24,12 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const googleProvider = new GoogleAuthProvider();
+
+export function handleFirestoreError(error: unknown, operation?: OperationType, path?: string): string {
+  const message = error instanceof Error ? error.message : 'Ocorreu um erro desconhecido';
+  console.error(`Firebase error [${operation || 'UNKNOWN'}] on ${path || 'unknown path'}:`, message);
+  return message;
+}
 
 export {
   signInWithPopup,
@@ -38,10 +52,3 @@ export {
   limit,
   addDoc,
 };
-
-export function handleFirestoreError(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
-  return 'Ocorreu um erro desconhecido';
-}
