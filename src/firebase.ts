@@ -38,3 +38,10 @@ export {
   limit,
   addDoc,
 };
+
+export function handleFirestoreError(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return 'Ocorreu um erro desconhecido';
+}
